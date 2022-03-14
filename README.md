@@ -8,3 +8,10 @@
 * To check if the Gson is working type in Gson gson = new Gson(); into the App class.
 * The app needs no functionality other than showing the quote and the author when it is run. The app should choose one quote each time it is run.
 * Ensure that you can test your code by running ./gradlew test.
+
+# Lab 09
+## Overview
+* Today you’ll update your lab from yesterday: rather than using a hardcoded file of JSON data with quotes, you’ll grab quotes from an API and display those to the user.
+
+
+
