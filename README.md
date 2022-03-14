@@ -12,7 +12,7 @@
 # Lab 09
 ## Overview
 * Today you’ll update your lab from yesterday: rather than using a hardcoded file of JSON data with quotes, you’ll grab quotes from an API and display those to the user.
-
+* write the quote to offline.json file
 #  instructions
 ## run the test units
 ## write ``./gradlew test`` on terminal
