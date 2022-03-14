@@ -3,8 +3,9 @@
  */
 package quotes;
 import com.google.gson.Gson;
-
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 
 public class App {
 
@@ -12,6 +13,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
        // getFromJson();
+
         FileOperations fileOperations = new FileOperations() ;
         HttpOperations httpOperations = new HttpOperations("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" , "GET");
 
@@ -24,6 +26,9 @@ public class App {
         }else {
             System.out.println(fileOperations.getQuote("app/src/main/resources/recentquotes.json"));
         }
+        Gson gson = new Gson();
+
+        Files.write(Paths.get("app/src/main/resources/offline.json"), Collections.singleton(gson.toJson(httpOperations.getData())));
 
 
     }
