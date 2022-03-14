@@ -14,6 +14,8 @@
 * Today you’ll update your lab from yesterday: rather than using a hardcoded file of JSON data with quotes, you’ll grab quotes from an API and display those to the user.
 * write the quote to offline.json file
 #  instructions
+## In App class you can use the code to convert json file like the one that used .
+## add your absolute path on App class .
 ## run the test units
 ## write ``./gradlew test`` on terminal
 
