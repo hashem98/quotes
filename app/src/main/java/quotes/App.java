@@ -7,19 +7,43 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.*;
+import java.net.MalformedURLException;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 public class App {
 
-    public static void getFromJson() throws FileNotFoundException{
-        Gson gson = new Gson();
-        File file = new File("app/src//main/resources/recentquotes.json");
-        FileReader reader = new FileReader(file);
-        Quotes[] fileString = gson.fromJson(reader, Quotes[].class);
-        int arrayLength = fileString.length;
-        int random = (int)(Math.random() * arrayLength);
-        System.out.println(fileString[random]);
-    }
-    public static void main(String[] args) throws FileNotFoundException {
-        getFromJson();
+
+
+    public static void main(String[] args) throws Exception {
+       // getFromJson();
+        FileOperations fileOperations = new FileOperations() ;
+        HttpOperations httpOperations = new HttpOperations("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" , "GET");
+
+        if(httpOperations.startConnection().equals("success")) {
+            Gson gsonObj = new Gson();
+            ApiQuote reqQuote = gsonObj.fromJson(httpOperations.getData(), ApiQuote.class);
+            fileOperations.insertDataInFile(reqQuote.getQuoteAuthor() , reqQuote.getQuoteText() , "app/src/main/resources/recentquotes.json");
+            System.out.println("The author name : "+reqQuote.getQuoteAuthor());
+            System.out.println("The quote : "+reqQuote.getQuoteText());
+        }else {
+            System.out.println(fileOperations.getQuote("app/src/main/resources/recentquotes.json"));
+        }
+
+
     }
 }

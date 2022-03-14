@@ -16,4 +16,10 @@ public class Quotes {
                 author,
                 text);
     }
+    public String getAuthor(){
+        return this.author ;
+    }
+    public String getText(){
+        return this.text ;
+    }
 }
