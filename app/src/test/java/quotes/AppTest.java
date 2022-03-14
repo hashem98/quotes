@@ -3,6 +3,7 @@
  */
 package quotes;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +11,17 @@ import com.google.gson.Gson;
 
 
 import java.io.*;
+import com.google.common.reflect.TypeToken;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 
 class AppTest {
 
@@ -21,7 +33,29 @@ class AppTest {
         FileReader reader = new FileReader(file);
         Quotes[] fileString = gson.fromJson(reader, Quotes[].class);
         int arrayLength = fileString.length;
-        int random = (int)(Math.random() * arrayLength);
+        int random = (int) (Math.random() * arrayLength);
         assertNotNull(fileString[random]);
+
+    }
+    @DisplayName("test Http Operations class")
+    @Test
+    public void testHttpOperations() throws IOException{
+        HttpOperations httpOperations = new HttpOperations("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en" , "GET");
+        String status = httpOperations.startConnection() ;
+        assertEquals("success" , status , "startConnection method should return success if the request was successfully made");
+        System.out.println(httpOperations.getData());
+        assertNotNull(httpOperations.getData() , "the data should not be null");
+        assertTrue(httpOperations.getData().contains("quoteAuthor") , "the data should contain quoteAuthor ");
+        assertTrue(httpOperations.getData().contains("quoteText") , "the data should contain quoteText ");
+    }
+
+    @DisplayName("test File Operations class")
+    @Test
+    public void testFileOperations() throws IOException{
+        FileOperations fileOperations = new FileOperations();
+        String quote = fileOperations.getQuote("C:\\Users\\Smadi\\New\\quotes\\app\\src\\main\\resources\\recentquotes.json");
+        assertNotNull(quote , "the data should not be null");
+        assertTrue(quote.contains("Name Of Author:") , "the quote should contain Name Of Author");
+        assertTrue((quote.contains("The Quote :")) , "the quote should contain The Quote :");
     }
 }
